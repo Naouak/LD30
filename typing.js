@@ -36,7 +36,16 @@ var Game = function(){
     this.reportDeath = function(character){
         exp += character.getString().length;
         console.log(exp);
+        var oldLevel = level;
         level = Math.floor(exp/100);
+        if(oldLevel != level){
+            var scene = this.getScene();
+            var className = scene.className;
+            scene.className += " levelup";
+            setTimeout(function(){
+                scene.className = className;
+            },1000);
+        }
     };
 
     this.generateCharacter = function(str){

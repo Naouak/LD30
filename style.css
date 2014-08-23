@@ -92,3 +92,14 @@ body{
 .text_container strong, .mainTextContainer strong{
     color: red;
 }
+
+.levelup{
+    background-image: url(assets/levelup.png);
+    -webkit-animation: levelup 1s infinite;
+}
+
+@-webkit-keyframes levelup {
+    0% {opacity: 0;}
+    50% {opacity: 1;}
+    100% {opacity: 0;}
+}
