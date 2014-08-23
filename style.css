@@ -20,6 +20,10 @@ body{
     border: dashed greenyellow 5px;
 }
 
+.character.lock{
+    border-color: red;
+}
+
 .text_container{
     position: absolute;
     bottom: 0;

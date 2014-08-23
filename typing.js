@@ -35,9 +35,15 @@ var Game = function(){
         var chars = this.getCharacters();
         for(i=0; i < chars.length; i++){
             if(chars[i] == character){
+                if(lockedString == i){
+                    lockedString = -1;
+                }
                 chars.splice(i,1);
                 break;
             }
+        }
+        if(i >= lockedString){
+            lockedString--;
         }
     };
 
@@ -128,6 +134,7 @@ var Character = function(game, str, sprite){
     div.className = "character";
     div.style.backgroundImage = "url("+sprite+")";
     div.style.backgroundSize = "contain";
+    div.style.left = (Math.floor(Math.random()*80)+10)+"%";
 
     var textContainer = document.createElement("div");
     textContainer.className = "text_container";
@@ -143,6 +150,7 @@ var Character = function(game, str, sprite){
 
     this.lock = function(){
         this._lock = true;
+        div.className = "character lock";
     };
 
     this.isLocked = function(){
