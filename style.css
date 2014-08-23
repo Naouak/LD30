@@ -1,26 +1,38 @@
 body{
     font-family: sans-serif;
+    perspective: 1000px;
 }
 
 .game{
+    margin: auto;
     width: 1024px;
     height: 768px;
     border: solid red 1px;
     background: #afb7ba;
     position: relative;
-    overflow: hidden;
+    -webkit-transform: rotateX(45deg);
+    -webkit-transform-style: preserve-3d;
+
 }
 
 .character{
+    background: blue;
+    position: absolute;
+    width: 100px;
+    height: 200px;
+    -webkit-transform-origin: 100% 0;
+    -webkit-transform: rotatex(-45deg) translateY(-200px);
+}
+
+.character .sprite{
     width: 100px;
     height: 200px;
     position: absolute;
     left: 50%;
-    margin-left: -100px;
+    margin-left: -50px;
     border: dashed greenyellow 5px;
     -webkit-animation: walking 0.6s steps(3) infinite;
     background-repeat: no-repeat;
-    /*background-position: -200px 0;*/
 }
 
 @-webkit-keyframes walking{
@@ -35,8 +47,9 @@ body{
 .text_container{
     position: absolute;
     bottom: 0;
-    left: 0;
-    right: 0;
+    left: 50%;
+    margin-left: -150px;
+    width: 300px;
     background: black;
     color: white;
     text-align: center;

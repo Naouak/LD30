@@ -129,9 +129,14 @@ var Character = function(game, str, sprite){
 
     var div = document.createElement("div");
     div.className = "character";
-    div.style.backgroundImage = "url("+sprite+")";
+
     //div.style.backgroundSize = "contain";
     div.style.left = (Math.floor(Math.random()*80)+10)+"%";
+
+    var spriteContainer = document.createElement("div");
+    spriteContainer.className = "sprite";
+    spriteContainer.style.backgroundImage = "url("+sprite+")";
+    div.appendChild(spriteContainer);
 
     var textContainer = document.createElement("div");
     textContainer.className = "text_container";
