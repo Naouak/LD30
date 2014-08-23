@@ -37,18 +37,20 @@ var Game = function(){
     this.removeCharacter = function(character){
         var i = 0;
         var chars = this.getCharacters();
+
         for(i=0; i < chars.length; i++){
             if(chars[i] == character){
                 if(lockedString == i){
                     lockedString = -1;
                 }
+                if(i < lockedString){
+                    lockedString--;
+                }
                 chars.splice(i,1);
                 break;
             }
         }
-        if(i >= lockedString){
-            lockedString--;
-        }
+
     };
 
     this.think = function(){
@@ -93,12 +95,14 @@ var Game = function(){
             }
         }
 
+        if(lockedString >= this.getCharacters().length){
+            return;
+        }
+
         var strCheck = this.getCharacters()[lockedString].checkWithLogger(keyLogger);
         if(strCheck == -1){
             keyLogger.clear();
             lockedString = -1;
-        } else {
-
         }
     };
 
