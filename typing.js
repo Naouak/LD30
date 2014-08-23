@@ -11,7 +11,7 @@ var Game = function(){
 
     this.getKeyLogger = function(){
         return keyLogger;
-    }
+    };
 
     this.getScene = function(){
         return scene;
@@ -25,7 +25,7 @@ var Game = function(){
         }
 
 
-        var char = new Character(this, str,"assets/chartest.png");
+        var char = new Character(this, str,"assets/chartest2.png");
         this.getCharacters().push(char);
         char.addToScene(this.getScene());
     };
@@ -130,7 +130,7 @@ var Character = function(game, str, sprite){
     var div = document.createElement("div");
     div.className = "character";
     div.style.backgroundImage = "url("+sprite+")";
-    div.style.backgroundSize = "contain";
+    //div.style.backgroundSize = "contain";
     div.style.left = (Math.floor(Math.random()*80)+10)+"%";
 
     var textContainer = document.createElement("div");

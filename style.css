@@ -12,12 +12,20 @@ body{
 }
 
 .character{
-    width: 200px;
+    width: 100px;
     height: 200px;
     position: absolute;
     left: 50%;
     margin-left: -100px;
     border: dashed greenyellow 5px;
+    -webkit-animation: walking 0.6s steps(3) infinite;
+    background-repeat: no-repeat;
+    /*background-position: -200px 0;*/
+}
+
+@-webkit-keyframes walking{
+    from { background-position: 0 0; }
+    to { background-position: -300px 0; }
 }
 
 .character.lock{
