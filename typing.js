@@ -1,12 +1,15 @@
 var Game = function(){
     var scene = document.createElement("div");
     scene.className = "game";
-    var keyLogger = new KeyLogger();
+
+    var textContainer = document.createElement("div");
+    textContainer.className = "mainTextContainer";
+
+    var keyLogger = new KeyLogger(this);
     var lockedString = -1;
     var last_char = 0;
 
-    var characters = [
-    ];
+    var characters = [];
 
 
     this.getKeyLogger = function(){
@@ -15,6 +18,10 @@ var Game = function(){
 
     this.getScene = function(){
         return scene;
+    };
+
+    this.getMainTextContainer = function(){
+        return textContainer;
     };
 
     this.generateCharacter = function(str){
@@ -37,7 +44,6 @@ var Game = function(){
     this.removeCharacter = function(character){
         var i = 0;
         var chars = this.getCharacters();
-
         for(i=0; i < chars.length; i++){
             if(chars[i] == character){
                 if(lockedString == i){
@@ -79,6 +85,7 @@ var Game = function(){
     };
 
     this.typingEvent = function(e){
+        e.preventDefault();
         var i = 0;
         keyLogger.log(String.fromCharCode(e.keyCode));
 
@@ -108,9 +115,10 @@ var Game = function(){
 
     requestAnimationFrame(this.loop.bind(this));
     document.body.onkeypress = this.typingEvent.bind(this);
+    document.body.appendChild(textContainer);
 };
 
-var KeyLogger = function(){
+var KeyLogger = function(game){
     this._key = "";
     this.log = function(key){
         this._key+=key;
@@ -122,6 +130,7 @@ var KeyLogger = function(){
 
     this.clear = function(){
         this._key = "";
+        game.getMainTextContainer().innerHTML = "";
     };
 };
 
@@ -133,8 +142,6 @@ var Character = function(game, str, sprite){
 
     var div = document.createElement("div");
     div.className = "character";
-
-    //div.style.backgroundSize = "contain";
     div.style.left = (Math.floor(Math.random()*80)+10)+"%";
 
     var spriteContainer = document.createElement("div");
@@ -178,6 +185,7 @@ var Character = function(game, str, sprite){
                 j++;
                 if(str.length <= j){
                     this.die();
+                    game.getMainTextContainer().innerHTML = "";
                     this._last_check = -1;
                     return this._last_check;
                 }
@@ -192,6 +200,7 @@ var Character = function(game, str, sprite){
         div.parentNode.removeChild(div);
         game.removeCharacter(this);
         if(this.isLocked()){
+            this._last_check = -1;
             game.getKeyLogger().clear();
         }
     };
@@ -215,10 +224,11 @@ var Character = function(game, str, sprite){
         var text = "<strong>"+str+"</strong>";
         if(this._last_check > -1){
             text = str.substr(0,this._last_check)+"<strong>"+str.substr(this._last_check)+"</strong>";
+            game.getMainTextContainer().innerHTML = text;
         }
         textContainer.innerHTML = text;
     };
 };
 
 var game = new Game();
-document.body.appendChild(game.getScene());
+document.querySelector(".game-container").appendChild(game.getScene());
