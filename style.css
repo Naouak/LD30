@@ -66,6 +66,20 @@ body{
     left: 50%;
 }
 
+.scoreContainer{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: black;
+    color: white;
+    padding: 5px;
+}
+
+.scoreContainer:before{
+    content: "Score :";
+    display: block;
+}
+
 .mainTextContainer{
     position: fixed;
     bottom: 0;

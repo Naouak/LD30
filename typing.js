@@ -5,6 +5,13 @@ var Game = function(){
     var textContainer = document.createElement("div");
     textContainer.className = "mainTextContainer";
 
+    var scoreContainer = document.createElement("div");
+    scoreContainer.className = "scoreContainer";
+
+    var score = 0;
+    var level = 1;
+    var exp = 0;
+
     var keyLogger = new KeyLogger(this);
     var lockedString = -1;
     var last_char = 0;
@@ -22,6 +29,14 @@ var Game = function(){
 
     this.getMainTextContainer = function(){
         return textContainer;
+    };
+    this.getLevel = function(){
+        return level;
+    };
+    this.reportDeath = function(character){
+        exp += character.getString().length;
+        console.log(exp);
+        level = Math.floor(exp/100);
     };
 
     this.generateCharacter = function(str){
@@ -113,9 +128,15 @@ var Game = function(){
         }
     };
 
+    this.addPointsToScore = function(points){
+        score+= points;
+        scoreContainer.innerHTML = score+" points";
+    };
+
     requestAnimationFrame(this.loop.bind(this));
     document.body.onkeypress = this.typingEvent.bind(this);
     document.body.appendChild(textContainer);
+    document.body.appendChild(scoreContainer);
 };
 
 var KeyLogger = function(game){
@@ -184,6 +205,8 @@ var Character = function(game, str, sprite){
                 }
                 j++;
                 if(str.length <= j){
+                    game.addPointsToScore(Math.round(10000*j*j/logger.getString().length));
+                    game.reportDeath(this);
                     this.die();
                     game.getMainTextContainer().innerHTML = "";
                     this._last_check = -1;
@@ -210,7 +233,7 @@ var Character = function(game, str, sprite){
             return;
         }
 
-        dist += this.speed*delta;
+        dist += this.speed*delta*(1+game.getLevel()/10);
         div.style.top = Math.round(dist)+"px";
         div.style.zIndex = Math.round(dist);
         //GameOver conditions
