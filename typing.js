@@ -9,6 +9,10 @@ var Game = function(){
     ];
 
 
+    this.getKeyLogger = function(){
+        return keyLogger;
+    }
+
     this.getScene = function(){
         return scene;
     };
@@ -16,7 +20,7 @@ var Game = function(){
     this.generateCharacter = function(str){
         //@todo Générer des strings en fonction du niveau
         if(str === undefined){
-            var strings  = ["coucou","tu veux voir ma ...","bouh","ahhhhhh !"];
+            var strings  = wordlist;
             str = strings[Math.floor(strings.length * Math.random())];
         }
 
@@ -65,7 +69,7 @@ var Game = function(){
         this.think();
         this.render();
         last_char++;
-        if(last_char == 30){
+        if(last_char == 100){
             this.generateCharacter();
             last_char=0;
         }
@@ -97,13 +101,6 @@ var Game = function(){
 
         }
     };
-
-    //this.generateCharacter("salut");
-    //this.generateCharacter("coucou");
-    //this.generateCharacter("j'ai faim");
-    //this.generateCharacter("il fait pas chaud");
-    //this.generateCharacter("pas faux");
-    //this.generateCharacter("!!!!");
 
     requestAnimationFrame(this.loop.bind(this));
     document.body.onkeypress = this.typingEvent.bind(this);
@@ -185,6 +182,9 @@ var Character = function(game, str, sprite){
         this.dead = true;
         div.parentNode.removeChild(div);
         game.removeCharacter(this);
+        if(this.isLocked()){
+            game.getKeyLogger().clear();
+        }
     };
 
     this.think = function(game, delta){
@@ -196,13 +196,18 @@ var Character = function(game, str, sprite){
         div.style.top = Math.round(dist)+"px";
         div.style.zIndex = Math.round(dist);
         //GameOver conditions
-        if(dist > 1000){
+        if(dist > 768){
             this.die();
         }
     };
 
     this.render = function(game){
         div.style.top = dist;
+        var text = "<strong>"+str+"</strong>";
+        if(this._last_check > -1){
+            text = str.substr(0,this._last_check)+"<strong>"+str.substr(this._last_check)+"</strong>";
+        }
+        textContainer.innerHTML = text;
     };
 };
 

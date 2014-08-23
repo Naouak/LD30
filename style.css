@@ -35,3 +35,7 @@ body{
     text-transform: uppercase;
     font-size: 30px;
 }
+
+.text_container strong{
+    color: red;
+}
